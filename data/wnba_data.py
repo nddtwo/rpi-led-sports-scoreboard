@@ -148,7 +148,7 @@ def get_standings():
     """
 
     # Get the current WNBA season based on the current date.
-    season = '2025' # TESTING # determine_current_season()
+    season = determine_current_season()
 
     # Call the WNBA standings API and store the JSON results.
     url = 'https://stats.nba.com/stats/leaguestandingsv3?LeagueID=10&SeasonType=Regular Season'    
