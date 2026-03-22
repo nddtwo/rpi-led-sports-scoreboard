@@ -142,7 +142,7 @@ scene_settings:
 
 # Brightness settings.
 brightness:
-  brightness_mode: 'static' #'auto', 'static'.
+  brightness_mode: 'auto' #'auto', 'static'.
   max_brightness: 100
 
 
