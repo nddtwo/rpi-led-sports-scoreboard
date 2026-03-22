@@ -65,10 +65,11 @@ scene_settings:
         scroll_pause_duration: 1
         scroll_frame_duration: 0.075
       highlight_fav_teams: True
+      colour_sidebar: True
       display_for:
         - wildcard
-        # - division
         # - conference
+        # - division
         # - league
 
   nba:
@@ -100,6 +101,7 @@ scene_settings:
         scroll_pause_duration: 1
         scroll_frame_duration: 0.075
       highlight_fav_teams: True
+      colour_sidebar: True
       display_for:
         - conference
         # - division
@@ -133,13 +135,14 @@ scene_settings:
         scroll_pause_duration: 1
         scroll_frame_duration: 0.075
       highlight_fav_teams: True
+      colour_sidebar: True
       display_for:
         - league
         
 
 # Brightness settings.
 brightness:
-  brightness_mode: 'auto' #'auto', 'static'.
+  brightness_mode: 'static' #'auto', 'static'.
   max_brightness: 100
 
 
