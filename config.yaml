@@ -36,9 +36,9 @@ favourite_teams:
 # Note alt logos that should be used. Any number of teams can have an alt logo, but each team is limited to a single alt logo at a time.
 alt_logos:
   nhl:
-    # LAK: 2019 # Example.
+    # SJS: 1998 # Example.
   pwhl:
-    # TOR: 2024 # Example. There's no alt logos for PWHL yet. Including this here for future use.
+    # OTT: 'Red' # Example.
   nba:
     # UTA: 2004 # Example.
   wnba:
