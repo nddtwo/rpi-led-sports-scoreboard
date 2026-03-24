@@ -20,6 +20,11 @@ class WNBAStandingsScene(StandingsScene):
         super().__init__()
         self.LEAGUE = 'WNBA'
 
+        # Add additional colour needed.
+        self.COLOURS.update({
+            'sidebar_highlight': (250, 70, 22) # WNBA orange.
+        })
+
 
     def display_scene(self):
         """ Displays the scene on the matrix.
@@ -44,11 +49,13 @@ class WNBAStandingsScene(StandingsScene):
 
         # For each standing type that should be displayed per config.yaml, build images and display.
         for type in self.settings['display_for']:
-            # Overall.
-            if type == 'league':
-                league_details = self.data['standings']['league']['leagues'][self.LEAGUE]
-                self.build_standings_image('league', league_details['abrv'], league_details['teams'], playoff_cutoff_hard=self.data['standings']['league']['playoff_cutoff_hard'])
-                self.display_standing_images()
+            # Check if standings data exists for the type before trying to build images.
+            standing_details = self.data['standings'].get(type)
+            if standing_details:
+                # Only league is relevant, but keeping standard logic.
+                for sub_standing_details in standing_details.values():
+                    self.build_standings_image(sub_standing_details)
+                    self.display_standing_images()
             
 
     def display_standing_images(self):

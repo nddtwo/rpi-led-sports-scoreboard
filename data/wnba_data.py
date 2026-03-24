@@ -183,14 +183,12 @@ def get_standings():
     # Set up structure of the returned dict.
     # Teams lists will be populated w/ the API results.
     standings = {
-        'rank_method': 'Win Percentage',
+        'retrieved_on': dt.now().astimezone(),
         'league': {
-            'playoff_cutoff_hard': 8,
-            'leagues': {
-                'WNBA': {
-                    'abrv': '', # Don't want to display anything besides WNBA. #TODO: Clean up logic in parent standings scene to make abrv optional.
-                    'teams': []
-                }
+            'WNBA': { # Match structure needed for other standing types.
+                'rank_method': 'Win Percentage',
+                'playoff_cutoff_hard': 8,
+                'team_standings': [] # Will be populated w/ the API results.
             }
         }
     }
@@ -199,14 +197,12 @@ def get_standings():
     # API returns teams in overall standing order, so generally won't have to sort.
     for team in standings_json:
         # Overall.
-        standings['league']['leagues']['WNBA']['teams'].append(
-            {
+        standings['league']['WNBA']['team_standings'].append({
                 'team_abrv': team['teamTricode'],
                 'rank': team['PlayoffRank'],
                 'percent': f'{team["WinPCT"]:.3f}', # Make percent a string formatted to 3 decimal places. E.g., 0.625.
                 'has_clinched': True if team['ClinchIndicator'] == ' - x' else False # ClinchedPostSeason isn't populated in WNBA API.
-            }
-        )
+        })
 
     return standings
 
