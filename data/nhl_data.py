@@ -156,7 +156,7 @@ def get_standings():
             # Rank helper will allow us to group top 3 teams in each div so they appear together at the top of the WC standings.
             'rank_helper': 'W' + str(team['wildcardSequence']).zfill(2) if team['wildcardSequence'] != 0 else team['divisionAbbrev'] + str(team['divisionSequence']),
             'points': team['points'],
-            'has_clinched': 'clinchIndicator' in team
+            'has_clinched': 'clinchIndicator' in team and team.get('clinchIndicator') != 'e' # The clinchIndicator key will only exist for teams that have clinched or been eliminated. Exclude teams that have been eliminated, which have a clinchIndicator of 'e'.
         })
 
         # Conferences.
@@ -164,7 +164,7 @@ def get_standings():
             'team_abrv': team['teamAbbrev']['default'],
             'rank': team['conferenceSequence'],
             'points': team['points'],
-            'has_clinched': 'clinchIndicator' in team
+            'has_clinched': 'clinchIndicator' in team and team.get('clinchIndicator') != 'e'
         })
 
         # Divisions.
