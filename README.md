@@ -6,8 +6,8 @@ Hardware requirements, installation instructions (with and without Docker), and 
 
 **Leagues Implemented:**
 - NHL 🏒
-- NBA 🏀
 - PWHL 🏒
+- NBA 🏀
 
 ### [Watch Demo on YouTube](https://www.youtube.com/watch?v=BjqVBXsv_c8)
 [![Scoreboard Demo](https://img.youtube.com/vi/BjqVBXsv_c8/maxresdefault.jpg)](https://www.youtube.com/watch?v=BjqVBXsv_c8)
@@ -226,17 +226,17 @@ Any installation will need to start with these steps:
 
 Functionality is divided into different "scenes" that each display information on a specific topic (e.g., today's games, standings, etc.). The currently implemented scenes are detailed below.
 
-| **Scene**                    | **Name in config.yaml scene_order** | **Description**                                                                                                                                                                                                  |
-| ---------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| NHL Games                    | nhl_games                           | Displays live NHL game scores, time remaining, etc. If the game hasn't started, start time is displayed. Can optionally display games for previous day as well.                                                  |
-| NHL Favourite Team Next Game | nhl_fav_team_next_game              | Displays next game details for all specified favourite teams. If game is today, displays start time. Can optionally be suppressed if game is in progress. Will not display anything if no favourite team is set. |
-| NHL Standings                | nhl_standings                       | Displays standings for wild card, division, conference, and/or overall, as configured by the user. Can optionally highlight favourite team.                                                                      |
-| NBA Games                    | nba_games                           | Displays live NBA game scores, time remaining, etc. If the game hasn't started, start time is displayed. Can optionally display games for previous day as well.                                                  |
-| NBA Favourite Team Next Game | nba_fav_team_next_game              | Displays next game details for all specified favourite teams. If game is today, displays start time. Can optionally be suppressed if game is in progress. Will not display anything if no favourite team is set. |
-| NBA Standings                | nba_standings                       | Displays standings for division and/or conference, as configured by the user. Can optionally highlight favourite team.                                                                                           |
-| PWHL Games                    | pwhl_games                           | Displays live PWHL game scores, time remaining, etc. If the game hasn't started, start time is displayed. Can optionally display games for previous day as well.                                                  |
-| PWHL Favourite Team Next Game | pwhl_fav_team_next_game              | Displays next game details for all specified favourite teams. If game is today, displays start time. Can optionally be suppressed if game is in progress. Will not display anything if no favourite team is set. |
-| PWHL Standings                | pwhl_standings                       | Displays standings for wild card, division, conference, and/or overall, as configured by the user. Can optionally highlight favourite team.                                                                      |
+| **Scene**                     | **Name in config.yaml scene_order** | **Description**                                                                                                                                                                                                  |
+| ----------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NHL Games                     | nhl_games                           | Displays live NHL game scores, time remaining, etc. If the game hasn't started, start time is displayed. Can optionally display games for previous day as well.                                                  |
+| NHL Favourite Team Next Game  | nhl_fav_team_next_game              | Displays next game details for all specified favourite teams. If game is today, displays start time. Can optionally be suppressed if game is in progress. Will not display anything if no favourite team is set. |
+| NHL Standings                 | nhl_standings                       | Displays standings for wild card, division, conference, and/or overall, as configured by the user. Can optionally highlight favourite team.                                                                      |
+| NBA Games                     | nba_games                           | Displays live NBA game scores, time remaining, etc. If the game hasn't started, start time is displayed. Can optionally display games for previous day as well.                                                  |
+| NBA Favourite Team Next Game  | nba_fav_team_next_game              | Displays next game details for all specified favourite teams. If game is today, displays start time. Can optionally be suppressed if game is in progress. Will not display anything if no favourite team is set. |
+| NBA Standings                 | nba_standings                       | Displays standings for division and/or conference, as configured by the user. Can optionally highlight favourite team.                                                                                           |
+| PWHL Games                    | pwhl_games                          | Displays live PWHL game scores, time remaining, etc. If the game hasn't started, start time is displayed. Can optionally display games for previous day as well.                                                 |
+| PWHL Favourite Team Next Game | pwhl_fav_team_next_game             | Displays next game details for all specified favourite teams. If game is today, displays start time. Can optionally be suppressed if game is in progress. Will not display anything if no favourite team is set. |
+| PWHL Standings                | pwhl_standings                      | Displays standings for wild card, division, conference, and/or overall, as configured by the user. Can optionally highlight favourite team.                                                                      |
 
 <a name="config"/>
 
@@ -286,4 +286,5 @@ These setting impact individual scenes only and are (generally) unique to that s
 | Standings                | ...standings.scroll.scroll_pause_duration                      | How many seconds to pause once a team has been fully scrolled on/off the matrix.                                                      | Any number > 0<br> Default 1                                   |                                                                                       |
 | Standings                | ...standings.scroll.scroll_frame_duration                      | How long to wait between frames of the scroll animation.                                                                              | Any number<br> Default 0.075                                   | The higher this number, the slower the scroll animation.                              |
 | Standings                | ...standings.highlight_fav_teams                               | If favourite team(s) should be highlighted yellow in the standings.                                                                   | <ul><li>True (Default)</li><li>False</li></ul>                 |                                                                                       |
+| Standings                | ...standings.colour_sidebar                                    | If sidebar should have a coloured stripe at the left edge to help identify the league.                                                | <ul><li>True (Default)</li><li>False</li></ul>                 |                                                                                       |
 | Standings                | ...standings.display_for                                       | Which standings should be displayed (division, conference, etc.).                                                                     | See options in config.yaml. Comment/uncomment lines as needed. |                                                                                       |
