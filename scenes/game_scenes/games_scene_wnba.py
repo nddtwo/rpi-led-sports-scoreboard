@@ -1,24 +1,24 @@
 from .games_scene import GamesScene
 from setup.matrix_setup import matrix
-import data.nba_data
+import data.wnba_data
 from utils import data_utils, date_utils
 
 from datetime import datetime as dt
 from time import sleep
 
 
-class NBAGamesScene(GamesScene):
-    """ Game scene for the NBA. Contains functionality to pull data from NBA API, parse, and build+display specific images based on the result.
+class WNBAGamesScene(GamesScene):
+    """ Game scene for the WNBA. Contains functionality to pull data from WNBA API, parse, and build+display specific images based on the result.
     This class extends the general Scene and GameScene classes. An object of this class type is created when the scoreboard is started.
     """
 
     def __init__(self):
-        """ Defines the league as NBA. Used to identify the correct files when adding logos to images.
+        """ Defines the league as WNBA. Used to identify the correct files when adding logos to images.
         First runs init from the generic GameScene class.
         """
         
         super().__init__()
-        self.LEAGUE = 'NBA'
+        self.LEAGUE = 'WNBA'
 
 
     def display_scene(self):
@@ -40,13 +40,13 @@ class NBAGamesScene(GamesScene):
             if (hasattr(self, 'data_previous_day') and self.data_previous_day['saved_date'] != dates_to_display[0]) or not hasattr(self, 'data_previous_day'):
                 self.data_previous_day = {
                     'saved_date': dates_to_display[0], # Note the previous date.
-                    'games': data.nba_data.get_games(dates_to_display[0]) # Get data for previous date.
+                    'games': data.wnba_data.get_games(dates_to_display[0]) # Get data for previous date.
                 }
         
         # Get current day game data. Save this for future reference.
         self.data = {
             'games_previous_pull': self.data['games'] if hasattr(self, 'data') else None, # If this is the first time this is run, we'd expect self.data to not exist.
-            'games': data.nba_data.get_games(dates_to_display[-1]), # Get data for current day. Current day will always be the last element of dates_to_display.
+            'games': data.wnba_data.get_games(dates_to_display[-1]), # Get data for current day. Current day will always be the last element of dates_to_display.
         }
 
         # If there are games to display from yesterday (and setting is enabled), build and display splash image (if enabled), then images for those games.
@@ -187,7 +187,7 @@ class NBAGamesScene(GamesScene):
 
         # Otherwise, we're in 2OT, or later. Calculate the number of OT periods and add that to the image.
         elif game['period_num'] > 5:
-            per = f'{game['period_num'] - 4}{game['period_type']}'
+            per = f'{game['per_number'] - 4}{game['period_type']}'
             self.draw['centre'].text((1, -1), per, font=self.FONTS['med'], fill=self.COLOURS['white'])
 
 
@@ -204,7 +204,7 @@ class NBAGamesScene(GamesScene):
 
         # Or if in 2OT or later. Calculate the number of OT periods and add that to the centre image.
         elif game['period_num'] > 5:
-            per = f'{game['period_num'] - 4}{game['period_type']}'
+            per = f'{game['per_number'] - 4}{game['period_type']}'
             self.draw['centre'].text((1, 8), per, font=self.FONTS['med'], fill=self.COLOURS['white'])
 
 

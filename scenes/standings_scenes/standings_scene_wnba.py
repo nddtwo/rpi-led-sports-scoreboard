@@ -1,28 +1,28 @@
 from .standings_scene import StandingsScene
 from setup.matrix_setup import matrix
-import data.nhl_data
+import data.wnba_data
 from utils import data_utils
 
 from datetime import datetime as dt
 from time import sleep
 
 
-class NHLStandingsScene(StandingsScene):
-    """ Standings scene for the NHL. Contains functionality to pull standings data from NHL API, process as needed, and build+display images based on the result.
+class WNBAStandingsScene(StandingsScene):
+    """ Standings scene for the WNBA. Contains functionality to pull standings data from WNBA API, process as needed, and build+display images based on the result.
     This class extends the general Scene and StandingsScene classes. An object of this class type is created when the scoreboard is started.
     """
 
     def __init__(self):
-        """ Defines the league as NHL. Used to identify the correct files when adding logos to images.
+        """ Defines the league as WNBA. Used to identify the correct files when adding logos to images.
         First runs init from the generic GameScene class.
         """
         
         super().__init__()
-        self.LEAGUE = 'NHL'
+        self.LEAGUE = 'WNBA'
 
         # Add additional colour needed.
         self.COLOURS.update({
-            'sidebar_highlight': (77, 84, 98) # NHL grey.
+            'sidebar_highlight': (250, 70, 22) # WNBA orange.
         })
 
 
@@ -36,7 +36,7 @@ class NHLStandingsScene(StandingsScene):
 
         # Get current standings data.
         self.data = {
-            'standings': data.nhl_data.get_standings()
+            'standings': data.wnba_data.get_standings()
         }
 
         # Display splash if enabled.
@@ -52,7 +52,7 @@ class NHLStandingsScene(StandingsScene):
             # Check if standings data exists for the type before trying to build images.
             standing_details = self.data['standings'].get(type)
             if standing_details:
-                # Loop over each division/conference/whatever.
+                # Only league is relevant, but keeping standard logic.
                 for sub_standing_details in standing_details.values():
                     self.build_standings_image(sub_standing_details)
                     self.display_standing_images()
