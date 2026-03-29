@@ -54,7 +54,7 @@ scene_settings:
     fav_team_next_game: # nhl_fav_team_next_game scene.
       transition: 'modern'
       display_duration: 3.5
-      display_if_in_progress: False
+      display_if_in_progress: True
 
     standings: # nhl_standings scene.
       transition: 'modern'
@@ -90,7 +90,7 @@ scene_settings:
     fav_team_next_game: # nba_fav_team_next_game scene.
       transition: 'modern'
       display_duration: 3.5
-      display_if_in_progress: False
+      display_if_in_progress: True
 
     standings: # nba_standings scene.
       transition: 'modern'
@@ -124,7 +124,7 @@ scene_settings:
     fav_team_next_game: # pwhl_fav_team_next_game scene.
       transition: 'modern'
       display_duration: 3.5
-      display_if_in_progress: False
+      display_if_in_progress: True
 
     standings: # pwhl_standings scene.
       transition: 'modern'
