@@ -10,9 +10,13 @@ from scenes.game_scenes.games_scene_nba import NBAGamesScene
 from scenes.fav_team_next_game_scenes.fav_team_next_game_scene_nba import NBAFavTeamNextGameScene
 from scenes.standings_scenes.standings_scene_nba import NBAStandingsScene
 
-from scenes.game_scenes.games_scene_pwhl import PWHLGamesScene
-from scenes.fav_team_next_game_scenes.fav_team_next_game_scene_pwhl import PWHLFavTeamNextGameScene
-from scenes.standings_scenes.standings_scene_pwhl import PWHLStandingsScene
+from scenes.game_scenes.games_scene_wnba import WNBAGamesScene
+from scenes.fav_team_next_game_scenes.fav_team_next_game_scene_wnba import WNBAFavTeamNextGameScene
+from scenes.standings_scenes.standings_scene_wnba import WNBAStandingsScene
+
+from scenes.game_scenes.games_scene_mlb import MLBGamesScene
+from scenes.fav_team_next_game_scenes.fav_team_next_game_scene_mlb import MLBFavTeamNextGameScene
+from scenes.standings_scenes.standings_scene_mlb import MLBStandingsScene
 
 from setup.matrix_setup import matrix, determine_matrix_brightness
 from utils import data_utils

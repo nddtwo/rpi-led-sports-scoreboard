@@ -58,11 +58,11 @@ class MLBGamesScene(GamesScene):
         # For the current day's games, note if any runs were scored since the last data pull.
         if self.data['games_previous_pull']: # Only applicable if there's a previous copy to compare to.
             for game in self.data['games']:
-                if game['status'] not in ['FUT', 'PRE']: # Not applicable if the game hasn't started yet.
+                if game['status'] not in ['Live']: # Not applicable if the game hasn't started yet.
                     # Match games between data pulls.
                     matched_game = next(filter(lambda x: x['game_id'] == game['game_id'], self.data['games_previous_pull']))
 
-                    if matched_game['status'] not in ['FUT', 'PRE']: # Not applicable if the game hasn't started yet in the previous pull.
+                    if matched_game['status'] not in ['Preview', 'Live']: # Not applicable if the game hasn't started yet in the previous pull.
                         # Determine if either team scored and set keys accordingly.
                         game['away_team_scored'] = True if game['away_score'] > matched_game['away_score'] else False
                         game['home_team_scored'] = True if game['home_score'] > matched_game['home_score'] else False
@@ -109,15 +109,19 @@ class MLBGamesScene(GamesScene):
         if games:
             for game in games:
                 # If the game has yet to begin, build the game not started image.
-                if game['status'] in ['FUT', 'PRE']:
+                if game['status'] in ['Preview']:
                     self.build_game_not_started_image(game)
 
+                # If the game is postponed, build the game postponed image. Need to check for these first as the API also says these games are 'Final'.
+                elif game['detailed_status'] in ['Postponed']:
+                    self.build_game_postponed_image(game)
+
                 # If the game is over, build the final score image.
-                elif game['status'] in ['OFF', 'FINAL']:
+                elif game['status'] in ['Final']:
                     self.build_game_complete_image(game)
 
                 # Otherwise, the game is in progress. Build the game in progress screen.
-                elif game['status'] in ['LIVE', 'CRIT']:
+                elif game['status'] in ['Live', 'Delayed']: # TODO: Confirm that a game is delayed once it's started.
                     self.build_game_in_progress_image(game)
                 else:
                     print(f"Unexpected game status encountered from API: {game['status']}.")
@@ -142,38 +146,131 @@ class MLBGamesScene(GamesScene):
             self.transition_image(direction='out', image_already_combined=True)
 
 
+    def build_game_in_progress_image(self, game):
+        """ Builds image for when the game is in progress.
+        Includes team logos, score, period, and time remaining.
+
+        Args:
+            game (dict): Dictionary with all details of a specific game.
+        """
+
+        # First, add the team logos to the left and right images.
+        self.add_team_logos_to_image(game)
+
+        # Add the inning to the centre image.
+        self.add_playing_period_to_image(game) # This exists in parent class, but is overridden here due to baseball using innings.
+
+        # Add the current score to the centre image, noting if either team scored since previous data pull.
+        self.add_score_to_image(game, overriding_team=game['scoring_team'], colour_override=self.COLOURS['red'])
+
+        if self.settings['display_outs_and_bases']:
+            # Add outs identifier to the centre image.
+            self.add_outs_to_image(game)
+
+            # Add runners on base identifier to the centre image.
+            self.add_runners_on_base_to_image(game)
+
+
     def add_playing_period_to_image(self, game):
-        """ Adds current playing inning to the centre image.
+        """ Adds current inning to the centre image.
         This exists within the specific league class due to huge differences in playing periods between sports (periods, quarters, innings, etc.).
 
         Args:
             game (dict): Dictionary with all details of a specific game.
         """
+
+        # Determine the offset for the inning details based on the inning number. If extra innings, will need to adjust to fit the extra digit.
+        col_offset = 6 if game['inning_num'] <= 9 else 3
+
+        # If in the top or start of inning, up arrow.
+        if game['inning_state'] in ['Top', 'Start']:
+            self.draw['centre'].line(((col_offset, 1), (col_offset, 6)), fill=self.COLOURS['white'])
+            self.draw['centre'].line(((col_offset, 1), (col_offset-2, 3)), fill=self.COLOURS['white'])
+            self.draw['centre'].line(((col_offset, 1), (col_offset+2, 3)), fill=self.COLOURS['white'])
+
+        # If in bottom, down arrow.
+        elif game['inning_state'] == 'Bottom':
+            self.draw['centre'].line(((col_offset, 7), (col_offset, 2)), fill=self.COLOURS['white'])
+            self.draw['centre'].line(((col_offset, 7), (col_offset-2, 5)), fill=self.COLOURS['white'])
+            self.draw['centre'].line(((col_offset, 7), (col_offset+2, 5)), fill=self.COLOURS['white'])
+
+        # If at the end of the inning, add an 'E'.
+        elif game['inning_state'] == 'End':
+            self.draw['centre'].text((col_offset-1, -1), 'E', font=self.FONTS['med'], fill=self.COLOURS['white'])
+
+        # Middle of inning, horizontal line.
+        elif game['inning_state'] == 'Middle':
+            self.draw['centre'].line(((col_offset-2, 4), (col_offset+2, 4)), fill=self.COLOURS['white'])
         
-        # TODO: Add inning display logic here. May show inning number and state (Top/Bottom).
-        pass
+        # Add inning number.
+        self.draw['centre'].text((col_offset+5, -1), str(game['inning_num']), font=self.FONTS['med'], fill=self.COLOURS['white'])
 
 
     def add_final_playing_period_to_image(self, game):
-        """ Adds final playing inning to the centre image if game ended in extra innings.
+        """ Adds final inning to the centre image if game ended in extra innings.
 
         Args:
             game (dict): Dictionary with all details of a specific game.
         """
 
-        # TODO: Add final inning display logic if needed.
-        pass
+        # If the game ended in extra innings, add the final inning number to the image.
+        if game['inning_num'] > 9:
+            # We'll assume no games go longer than 99 innings... so only one layout needed.
+            self.draw['centre'].text((4, 8), str(game['inning_num']), font=self.FONTS['med'], fill=self.COLOURS['white'])
 
 
-    def should_display_time_remaining_in_playing_period(self, game):
-        """ Determines if the time remaining in the playing inning should be added to the centre image.
+    def add_outs_to_image(self, game):
+        """ Adds number of outs to the image for in progress games.
 
         Args:
             game (dict): Dictionary with all details of a specific game.
-
-        Returns:
-            Bool: If the time remaining in the playing inning should be added to the centre image (True) or not (False).
         """
 
-        # TODO: Determine based on game state if inning info should be displayed
-        return False
+        # Draw grey boxes representing potential outs.
+        self.draw['centre'].rectangle(((2, 10), (4, 11)), fill=self.COLOURS['grey_light'])
+        self.draw['centre'].rectangle(((2, 13), (4, 14)), fill=self.COLOURS['grey_light'])
+        self.draw['centre'].rectangle(((2, 16), (4, 17)), fill=self.COLOURS['grey_light'])
+
+        # Colour in boxes based on number of outs.
+        if game['outs'] >= 1:
+            self.draw['centre'].rectangle(((2, 10), (4, 11)), fill=self.COLOURS['yellow'])
+        if game['outs'] >= 2:
+            self.draw['centre'].rectangle(((2, 13), (4, 14)), fill=self.COLOURS['yellow'])
+        if game['outs'] == 3:
+            self.draw['centre'].rectangle(((2, 16), (4, 17)), fill=self.COLOURS['yellow'])
+
+
+    def add_runners_on_base_to_image(self, game):
+        """ Adds runners on base to the image for in progress games.
+
+        Args:
+            game (dict): Dictionary with all details of a specific game.
+        """
+        
+        # Draw a square rotated 45 degrees to represent each base. Each made up of four lines.
+        # 1st base.
+        self.draw['centre'].line(((15, 13), (17, 15)), fill=self.COLOURS['grey_light'])
+        self.draw['centre'].line(((17, 15), (15, 17)), fill=self.COLOURS['grey_light'])
+        self.draw['centre'].line(((15, 17), (13, 15)), fill=self.COLOURS['grey_light'])
+        self.draw['centre'].line(((13, 15), (15, 13)), fill=self.COLOURS['grey_light'])
+        # 2nd base.
+        self.draw['centre'].line(((12, 10), (14, 12)), fill=self.COLOURS['grey_light'])
+        self.draw['centre'].line(((14, 12), (12, 14)), fill=self.COLOURS['grey_light'])
+        self.draw['centre'].line(((12, 14), (10, 12)), fill=self.COLOURS['grey_light'])
+        self.draw['centre'].line(((10, 12), (12, 10)), fill=self.COLOURS['grey_light'])
+        # 3rd base.
+        self.draw['centre'].line(((9, 13), (11, 15)), fill=self.COLOURS['grey_light'])
+        self.draw['centre'].line(((11, 15), (9, 17)), fill=self.COLOURS['grey_light'])
+        self.draw['centre'].line(((9, 17), (7, 15)), fill=self.COLOURS['grey_light'])
+        self.draw['centre'].line(((7, 15), (9, 13)), fill=self.COLOURS['grey_light'])
+
+        # Colour in based on if there's a runner on the base.
+        if game['runner_on_first']:
+            self.draw['centre'].line(((15, 14), (15, 16)), fill=self.COLOURS['yellow'])
+            self.draw['centre'].line(((14, 15), (16, 15)), fill=self.COLOURS['yellow'])
+        if game['runner_on_second']:
+            self.draw['centre'].line(((12, 11), (12, 13)), fill=self.COLOURS['yellow'])
+            self.draw['centre'].line(((11, 12), (13, 12)), fill=self.COLOURS['yellow'])
+        if game['runner_on_third']:
+            self.draw['centre'].line(((9, 14), (9, 16)), fill=self.COLOURS['yellow'])
+            self.draw['centre'].line(((8, 15), (10, 15)), fill=self.COLOURS['yellow'])

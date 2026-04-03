@@ -16,33 +16,80 @@ def get_games(date):
     # Create an empty list to hold the game dicts.
     games = []
 
+    # Build the URL for the MLB game API call.
+    base_url = 'https://statsapi.mlb.com/api/v1/schedule/games/'
+    url_params = {
+        'sportId': 1,  # MLB sport ID
+        'date': date.strftime('%Y-%m-%d'), # Format date as YYYY-MM-DD 
+        'hydrate': [ # Hydrations add extra details to the API response.
+            'team',
+            'linescore'
+        ],
+        'fields': [ # Fields filter to limit API response to only the data we need.
+            'totalGames',
+            'dates',
+            'games',
+            'gamePk',
+            'gameType',
+            'gameDate',
+            'status',
+            'abstractGameState',
+            'detailedState',
+            'startTimeTBD',
+            'linescore',
+            'teams',
+            'away',
+            'team',
+            'abbreviation',
+            'home',
+            'team',
+            'abbreviation',
+            'linescore',
+            'currentInning',
+            'inningState',
+            'teams',
+            'home',
+            'runs',
+            'away',
+            'runs',
+            'outs',
+            'offense',
+            'first',
+            'second',
+            'third'
+        ]
+    }
+    url = base_url + '?' + '&'.join([f'{key}={",".join(value) if isinstance(value, list) else value}' for key, value in url_params.items()])
+    
     # Call the MLB game API for the date specified and store the JSON results.
-    # TODO: Implement MLB API call for games on the provided date.
-    games_json = []
+    games_response = session.get(url=url)
+    games_json = games_response.json()['dates'][0]['games']
 
     # For each game, build a dict recording current game details.
     if games_json: # If games today.
         for game in games_json:
             games.append({
-                'game_id': None,  # TODO: Extract from API
-                'home_abrv': None,  # TODO: Extract from API
-                'away_abrv': None,  # TODO: Extract from API
-                'home_score': None,  # TODO: Extract from API
-                'away_score': None,  # TODO: Extract from API
-                'start_datetime_utc': None,  # TODO: Extract from API
-                'start_datetime_local': None,  # TODO: Extract from API
-                'status': None,  # TODO: Extract from API
-                'has_started': False,  # TODO: Extract from API
-                'inning_num': None,  # TODO: Extract from API (placeholder for period)
-                'inning_state': None,  # TODO: Extract from API (Top/Bottom)
-                'period_time_remaining': None,  # TODO: Extract from API (outs, balls, strikes)
-                'is_intermission': False,
-                # Will set the remaining later, default to False and None for now.
+                'game_id': game['gamePk'],
+                'home_abrv': game['teams']['home']['team']['abbreviation'],
+                'away_abrv': game['teams']['away']['team']['abbreviation'],
+                'home_score': game.get('linescore', {}).get('teams', {}).get('home', {}).get('runs', 0), # These won't exist until the game starts.
+                'away_score': game.get('linescore', {}).get('teams', {}).get('away', {}).get('runs', 0),
+                'start_datetime_utc': dt.strptime(game['gameDate'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=tz.utc),
+                'start_datetime_local': dt.strptime(game['gameDate'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=tz.utc).astimezone(tz=None), # Convert UTC to local time.
+                'status': game['status']['abstractGameState'],
+                'detailed_status': game['status']['detailedState'],
+                'has_started': True if game['status']['abstractGameState'] in ['Live', 'Final'] else False,
+                'inning_num': game.get('linescore', {}).get('currentInning'), # These won't exist until the game starts.
+                'inning_state': game.get('linescore', {}).get('inningState'),
+                'outs': game.get('linescore', {}).get('outs', 0),
+                'runner_on_first': True if 'first' in game.get('linescore', {}).get('offense', {}) else False,
+                'runner_on_second': True if 'second' in game.get('linescore', {}).get('offense', {}) else False,
+                'runner_on_third': True if 'third' in game.get('linescore', {}).get('offense', {}) else False,
                 'home_team_scored': False,
                 'away_team_scored': False,
                 'scoring_team': None
             })
-
+            
     return games
 
 
