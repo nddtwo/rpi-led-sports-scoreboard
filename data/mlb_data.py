@@ -101,32 +101,63 @@ def get_next_game(team):
         team (str): Team abbreviation to pull next game details for.
 
     Returns:
-            dict: Dict of next game details.
+        dict: Dict of next game details.
     """
-    
-    # Note the current datetime.
+
+    # Note current datetime.
     cur_datetime = dt.today().astimezone()
-    cur_date = dt.today().astimezone().date()
+    cur_date = cur_datetime.date()
 
-    # Call the MLB schedule API for the team specified and store the JSON results.
-    # TODO: Implement MLB API call for team schedule.
+    # Convert provided team abbreviation to team ID for the API call.
+    team = determine_team_abbreviation(team)
+
+    # Build the URL for the MLB game API call.
+    base_url = 'https://statsapi.mlb.com/api/v1/teams/'
+    url_params = {
+        'teamId': team,
+        'hydrate': [ # Hydrations add extra details to the API response.
+            'nextSchedule(team)',
+        ],
+        'fields': [ # Fields filter to limit API response to only the data we need.
+            'teams',
+            'nextGameSchedule',
+            'dates',
+            'games',
+            'gameDate',
+            'status',
+            'abstractGameState',
+            'detailedState',
+            'teams',
+            'away',
+            'team',
+            'abbreviation'
+        ]
+    }
+    url = base_url + '?' + '&'.join([f'{key}={",".join(value) if isinstance(value, list) else value}' for key, value in url_params.items()])
+    
+    # Call the MLB team API for the team specified (hydrated with next games details) and store the JSON results.
+    games_response = session.get(url=url)
+    all_schedule_json = games_response.json()['teams'][0]['nextGameSchedule']['dates']
+
+    # Since an MLB team can play multiple games in a day, we'll need to flatten.
     schedule_json = []
+    for game_date in all_schedule_json:
+        for game in game_date['games']:
+            schedule_json.append(game)
 
-    # Filter results to games that have not already concluded. Get the 0th element, the next game.
-    upcoming_games = []  # TODO: Filter schedule_json for upcoming games
-    next_game_details = upcoming_games[0] if len(upcoming_games) > 0 else None
-
-    if next_game_details:
-        # Put together a dictionary with needed details.
-        next_game = {
-            'home_or_away': None,  # TODO: Extract from API
-            'opponent_abrv': None,  # TODO: Extract from API
-            'start_datetime_utc': None,  # TODO: Extract from API
-            'start_datetime_local': None,  # TODO: Extract from API
-            'is_today': False,  # TODO: Determine from API
-            'has_started': False  # TODO: Determine from API
-        }
-        return(next_game)
+    # Determine the next game for the team specified and return game details.
+    for game in schedule_json:
+        if game['status']['abstractGameState'] in ['Preview', 'Live']:
+            # Put together a dictionary with needed details.
+            next_game = {
+                'home_or_away': 'away' if game['teams']['home']['team']['abbreviation'] != team else 'home',
+                'opponent_abrv': game['teams']['home']['team']['abbreviation'] if game['teams']['home']['team']['abbreviation'] != team else game['teams']['away']['team']['abbreviation'],
+                'start_datetime_utc': dt.strptime(game['gameDate'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=tz.utc),
+                'start_datetime_local': dt.strptime(game['gameDate'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=tz.utc).astimezone(tz=None),
+                'is_today': True if dt.strptime(game['gameDate'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=tz.utc).astimezone(tz=None).date() == cur_date or dt.strptime(game['gameDate'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=tz.utc).astimezone(tz=None) < cur_datetime else False, # TODO: clean this up. Needed in case game is still going when date rolls over.
+                'has_started': True if cur_datetime >= dt.strptime(game['gameDate'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=tz.utc).astimezone(tz=None) else False
+            }
+            return(next_game)
     
     # If no next game found, return None.
     return None
@@ -169,3 +200,50 @@ def get_standings():
     # TODO: Parse standings_json and populate standings dict structure
 
     return standings
+
+
+def determine_team_abbreviation(team_abrv):
+    """ Gets team ID (int) based on team abbreviation.
+
+    Args:
+        team_abrv (str): Abbreviation of the MLB team.
+
+    Returns:
+        int: Team ID.
+    """
+
+    # Mapping of MLB teams abbreviations to IDs. Needed since schedule API only accepts ID as input.
+    team_abbreviations_to_ids = {
+        'ATH': 133,
+        'PIT': 134,
+        'SD':  135,
+        'SEA': 136,
+        'SF':  137,
+        'STL': 138,
+        'TB':  139,
+        'TEX': 140,
+        'TOR': 141,
+        'MIN': 142,
+        'PHI': 143,
+        'ATL': 144,
+        'CWS': 145,
+        'MIA': 146,
+        'NYY': 147,
+        'MIL': 158,
+        'LAA': 108,
+        'AZ':  109,
+        'BAL': 110,
+        'BOS': 111,
+        'CHC': 112,
+        'CIN': 113,
+        'CLE': 114,
+        'COL': 115,
+        'DET': 116,
+        'HOU': 117,
+        'KC':  118,
+        'LAD': 119,
+        'WSH': 120,
+        'NYM': 121
+    }
+
+    return team_abbreviations_to_ids.get(team_abrv, None)

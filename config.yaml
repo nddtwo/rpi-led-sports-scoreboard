@@ -4,7 +4,7 @@ scene_order:
   # - pwhl_fav_team_next_game
   # - nba_fav_team_next_game
   # - wnba_fav_team_next_game
-  # - mlb_fav_team_next_game
+  - mlb_fav_team_next_game
 
   # - nhl_games
   # - pwhl_games
@@ -210,6 +210,11 @@ scene_settings:
         show_completed_games_until_rollover_end_time: True
         rollover_end_time_local: '12:00'
         
+    fav_team_next_game: # mlb_fav_team_next_game scene.
+      transition: 'modern'
+      display_duration: 3.5
+      display_if_in_progress: True
+
 
 # Brightness settings.
 brightness:
