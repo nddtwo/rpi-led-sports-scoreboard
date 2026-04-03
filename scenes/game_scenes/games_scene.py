@@ -155,6 +155,22 @@ class GamesScene(Scene):
         # Add the current score to the centre image, noting if either team scored since previous data pull.
         self.add_score_to_image(game, overriding_team=game['scoring_team'], colour_override=self.COLOURS['red'])
 
+    
+    def build_game_postponed_image(self, game):
+        """ Builds image for when the game has been postponed.
+
+        Args:
+            game (dict): Dictionary with all details of a specific game.
+        """
+
+        # First, add the team logos to the left and right images.
+        self.add_team_logos_to_image(game)
+
+        # Add 'PPD' to the centre image.
+        self.draw['centre'].text((1, -1), 'P', font=self.FONTS['med'], fill=self.COLOURS['white'])
+        self.draw['centre'].text((7, -1), 'P', font=self.FONTS['med'], fill=self.COLOURS['white'])
+        self.draw['centre'].text((13, -1), 'D', font=self.FONTS['med'], fill=self.COLOURS['white'])
+
 
     def add_time_to_image(self, game):
         """ Adds the start time or time remaining in the period to the centre image.
@@ -396,7 +412,7 @@ class GamesScene(Scene):
                 for overlay_opacity, col_offset in zip(range(*fade), range(-len(range(*fade))+1, 1, 1)):
                     # Rebuild full image with offsets. Will first need to clear the image. This will also ensure there's no artifacts between loops of animation.    
                     image_utils.clear_image(self.images['full'], self.draw['full'])
-                    
+
                     # If the image has not already been combined, add each sub-image to the full with a col_offset applied.
                     if not image_already_combined:                        
                         self.images['full'].paste(self.images['left'], (-19 + col_offset, 1))
