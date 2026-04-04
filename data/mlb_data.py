@@ -16,7 +16,7 @@ def get_games(date):
     # Create an empty list to hold the game dicts.
     games = []
 
-    # Build the URL for the MLB game API call.
+    # Build the URL for the MLB games scehdule API call.
     base_url = 'https://statsapi.mlb.com/api/v1/schedule/games/'
     url_params = {
         'sportId': 1,  # MLB sport ID
@@ -85,7 +85,7 @@ def get_games(date):
                 'runner_on_first': True if 'first' in game.get('linescore', {}).get('offense', {}) else False,
                 'runner_on_second': True if 'second' in game.get('linescore', {}).get('offense', {}) else False,
                 'runner_on_third': True if 'third' in game.get('linescore', {}).get('offense', {}) else False,
-                'home_team_scored': False,
+                'home_team_scored': False, # These will be populated later based on score changes, but default to False for now.
                 'away_team_scored': False,
                 'scoring_team': None
             })
@@ -114,7 +114,7 @@ def get_next_game(team):
     # Convert provided team abbreviation to team ID for the API call.
     team = determine_team_abbreviation(team)
 
-    # Build the URL for the MLB game API call.
+    # Build the URL for the MLB teams API call.
     base_url = 'https://statsapi.mlb.com/api/v1/teams/'
     url_params = {
         'teamId': team,
@@ -167,40 +167,132 @@ def get_next_game(team):
 
 
 def get_standings():
-    """ Loads current MLB standings by division, wildcard, conference, and overall league.
+    """ Loads current MLB standings by league wildcard.
 
     Returns:
         dict: Dict containing all standings by each category.
     """
 
-    # Call the MLB standings API and store the JSON results.
-    # TODO: Implement MLB API call for standings.
-    standings_json = {}
+    # Build the URL for the MLB standings API call.
+    base_url = 'https://statsapi.mlb.com/api/v1/standings/'
+    url_params = {
+        'standingsType': 'regularSeason',
+        'season': dt.today().year,
+        'leagueId': [
+            '103', # AL
+            '104'  # NL
+        ],
+        'hydrate': [ # Hydrations add extra details to the API response.
+            'team',
+        ],
+        'fields': [ # Fields filter to limit API response to only the data we need.
+            'records',
+            'teamRecords',
+            'team',
+            'abbreviation',
+            'league',
+            'name',
+            'division',
+            'name',
+            'leagueRank',
+            'divisionRank',
+            'wildCardRank',
+            'wildCardGamesBack',
+            'clinched',
+            'winningPercentage'
+        ]
+    }
+    url = base_url + '?' + '&'.join([f'{key}={",".join(value) if isinstance(value, list) else value}' for key, value in url_params.items()])
+    
+    # Call the MLB team API for standings (hydrated with team details) and store the JSON results.
+    standings_response = session.get(url=url)
+    all_standings_json = standings_response.json()['records']
 
+    # Flatten into a single list of teams since the API returns teams grouped by division and we want to sort by wildcard rank across the league.
+    standings_json = []
+    for div in all_standings_json:
+        for team in div['teamRecords']:
+            standings_json.append(team)
+
+    # Set up structure of the returned dict.
+    # Teams lists will be populated w/ the API results.
     standings = {
-        'division': {
-            'divisions': {},
-            'playoff_cutoff_soft': None
+        'retrieved_on': dt.now().astimezone(),
+        'league': {
+            league: {
+                'subdivision_abrv': league_abrv,
+                'rank_method': 'Win Percentage',
+                'team_standings': [] # Will be populated w/ the API results.
+            } for league, league_abrv in [('American League', 'AL'), ('National League', 'NL')]
         },
         'wildcard': {
-            'conferences': {},
-            'playoff_cutoff_hard': None,
-            'playoff_cutoff_soft': None
+            league: {
+                'subdivision_abrv': league_abrv,
+                'rank_method': 'Win Percentage',
+                'playoff_cutoff_hard': 6,
+                'playoff_cutoff_soft': 2,
+                'team_standings': [] # Will be populated w/ the API results.
+            } for league, league_abrv in [('American League', 'AL'), ('National League', 'NL')]
         },
-        'conference': {
-            'conferences': {}
-        },
-        'league': {
-            'leagues': {
-                'MLB': {
-                    'abrv': 'MLB',
-                    'teams': []
-                }
-            }
+        'division': {
+            div: {
+                'subdivision_abrv': div_abrv,
+                'rank_method': 'Win Percentage',
+                'playoff_cutoff_soft': 1,
+                'team_standings': [] # Will be populated w/ the API results.
+            } for div, div_abrv in [
+                ('American League East', 'ALE'),
+                ('American League Central', 'ALC'),
+                ('American League West', 'ALW'),
+                ('National League East', 'NLE'),
+                ('National League Central', 'NLC'),
+                ('National League West', 'NLW')
+            ]
         }
     }
 
-    # TODO: Parse standings_json and populate standings dict structure
+    # Populate the team lists w/ dicts containing details of each team.
+    # API returns teams in overall standing order, so generally won't have to sort.
+    for team in standings_json:
+        # League (NL/AL).
+        standings['league'][team['team']['league']['name']]['team_standings'].append({
+            'team_abrv': team['team']['abbreviation'],
+            'rank': team['leagueRank'],
+            'percent': '0' + team['winningPercentage'] if team['winningPercentage'] != '1.000' else team['winningPercentage'], # Reformating to match winning percentage format used in standings images.
+            'has_clinched': team['clinched']
+        })
+
+        # Wildcards by league.
+        standings['wildcard'][team['team']['league']['name']]['team_standings'].append({
+            'team_abrv': team['team']['abbreviation'],
+            'rank': team.get('wildCardRank', str(team['team']['division']['name'].split()[-1][0]) + team['divisionRank']), # Top teams in each division won't have a wildCardRank, so we'll use their division rank instead.
+            
+            # Rank helper will allow us to group top 3 div leaders so they appear together at the top of the WC standings.
+            'rank_helper': 1 if team['divisionRank'] == '1' else int(team.get('wildCardRank')) + 1, # +1 to force WC teams to be ranked below division leaders. This is a bit hacky, but works.
+            'rank_helper_tiebreaker': int(team['leagueRank']), # In cases where teams have the same wildCardRank (div leaders), we'll use league rank as a tie breaker to ensure correct ordering.
+            'percent': '0' + team['winningPercentage'] if team['winningPercentage'] != '1.000' else team['winningPercentage'], # Reformating to match winning percentage format used in standings images.
+            'has_clinched': team['clinched']
+        })
+
+        # Division.
+        standings['division'][team['team']['division']['name']]['team_standings'].append({
+            'team_abrv': team['team']['abbreviation'],
+            'rank': team['divisionRank'],
+            'percent': '0' + team['winningPercentage'] if team['winningPercentage'] != '1.000' else team['winningPercentage'], # Reformating to match winning percentage format used in standings images.
+            'has_clinched': team['clinched']
+        })
+
+    # Sort league team standings by rank within each league.
+    for league in standings['league'].values():
+        league['team_standings'] = sorted(league['team_standings'], key=lambda d: int(d['rank']))
+
+    # Sort WC league team standings by rank_helper and rank_helper_tiebreaker within each league.
+    for league in standings['wildcard'].values():
+        league['team_standings'] = sorted(league['team_standings'], key=lambda d: (d['rank_helper'], d['rank_helper_tiebreaker']))
+
+    # Sort division team standings by rank within each division.
+    for division in standings['division'].values():
+        division['team_standings'] = sorted(division['team_standings'], key=lambda d: int(d['rank']))
 
     return standings
 
