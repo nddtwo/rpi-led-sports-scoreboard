@@ -29,7 +29,7 @@ def clear_image(image, image_draw):
         image_draw (ImageDraw): PIL ImageDraw object associated with the image.
     """
 
-    # TODO: Comment this.
+    # If the image is a list of images, loop through each image and draw a black rectangle over it. Otherwise, draw a black rectangle over the single image.
     if isinstance(image, list):
         for im, drw in zip(image, image_draw):
             drw.rectangle([(0,0), im.size], fill=(0,0,0))

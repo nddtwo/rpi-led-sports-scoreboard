@@ -121,7 +121,7 @@ class MLBGamesScene(GamesScene):
                     self.build_game_complete_image(game)
 
                 # Otherwise, the game is in progress. Build the game in progress screen.
-                elif game['status'] in ['Live', 'Delayed']: # TODO: Confirm that a game is delayed once it's started.
+                elif game['status'] in ['Live', 'Delayed']: # TODO: Confirm that a game is delayed once it's started due to weather or other factors. Adjust logic as needed if there are any differences in the API results for a delayed game vs a live game.
                     self.build_game_in_progress_image(game)
                 else:
                     print(f"Unexpected game status encountered from API: {game['status']}.")
