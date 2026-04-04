@@ -89,6 +89,9 @@ def get_games(date):
                 'away_team_scored': False,
                 'scoring_team': None
             })
+
+    # Sort games by start datetime and game ID to ensure consistent order. Start datetime needed since game IDs can have a weird order due to postponement, etc.
+    games = sorted(games, key=lambda x: (x['start_datetime_utc'], x['game_id']))
             
     return games
 
