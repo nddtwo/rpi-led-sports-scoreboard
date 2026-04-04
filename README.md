@@ -1,6 +1,6 @@
 # Raspberry Pi LED Matrix Sports Scoreboard
 
-Display live hockey and basketball game scores, future start times, standings, etc. on an LED matrix driven by a Raspberry Pi.
+Display live hockey, basketball, and baseball game scores, future start times, standings, etc. on an LED matrix driven by a Raspberry Pi.
 
 Hardware requirements, installation instructions (with and without Docker), and configuration breakdown are below.
 
@@ -9,6 +9,7 @@ Hardware requirements, installation instructions (with and without Docker), and 
 - PWHL 🏒
 - NBA 🏀
 - WNBA 🏀
+- MLB ⚾️
 
 ### [Watch Demo on YouTube](https://www.youtube.com/watch?v=BjqVBXsv_c8)
 [![Scoreboard Demo](https://img.youtube.com/vi/BjqVBXsv_c8/maxresdefault.jpg)](https://www.youtube.com/watch?v=BjqVBXsv_c8)
@@ -238,6 +239,9 @@ Functionality is divided into different "scenes" that each display information o
 | 🏀 WNBA Games                    | wnba_games                          | Displays live WNBA game scores, time remaining, etc. If the game hasn't started, start time is displayed. Can optionally display games for previous day as well.                                                 |
 | 🏀 WNBA Favourite Team Next Game | wnba_fav_team_next_game             | Displays next game details for all specified favourite teams. If game is today, displays start time. Can optionally be suppressed if game is in progress. Will not display anything if no favourite team is set. |
 | 🏀 WNBA Standings                | wnba_standings                      | Displays overall standings. Can optionally highlight favourite team.                                                                                                                                             |
+| ⚾️ MLB Games                    | mlb_games                           | Displays live MLB game scores, current inning, outs, runners on base, etc. If the game hasn't started, start time is displayed. Can optionally display games for previous day as well.                           |
+| ⚾️ MLB Favourite Team Next Game | mlb_fav_team_next_game              | Displays next game details for all specified favourite teams. If game is today, displays start time. Can optionally be suppressed if game is in progress. Will not display anything if no favourite team is set. |
+| ⚾️ MLB Standings                | mlb_standings                       | Displays standings for wild card, division, and/or league, as configured by the user. Can optionally highlight favourite team.                                                                                   |
 
 <a name="config"/>
 
@@ -282,6 +286,7 @@ These setting impact individual scenes only and are (generally) unique to that s
 | Games                    | ...games.rollover.rollover_start_time_local                    | Time of day to start reporting on that days games.                                                                                    | Any time in 'HH:MM' format<br>Default 07:00                    |                                                                                       |
 | Games                    | ...games.rollover.show_completed_games_until_rollover_end_time | If games for both yesterday and today should be displayed when time is between rollover_start_time_local and rollover_end_time_local. | <ul><li>True (Default)</li><li>False</li>                      |                                                                                       |
 | Games                    | ...games.rollover.rollover_end_time_local                      | Time of day to stop reporting on yesterdays games.                                                                                    | Any time in 'HH:MM' format<br>Default 12:00                    | If  show_completed_games_until_rollover_end_time = False, this setting is irrelevant. |
+| Games                    | mlb.games.display_outs_and_bases                               | If outs and runners on base should be displayed for live games.                                                                       | <ul><li>True (Default)</li><li>False</li></ul>                 | Only applicable for the MLB games scene.                                              |
 | Favourite Team Next Game | ...fav_team_next_games.display_duration                        | How many seconds to display the next game info for each favourite team.                                                               | Any number > 0<br> Default 3.5                                 |                                                                                       |
 | Favourite Team Next Game | ...fav_team_next_games.display_if_in_progress                  | If the next game should be displayed when the favourite team is currently playing.                                                    | <ul><li>False (Default)</li><li>True</li>                      | If True, the next game will be displayed with 'Ipr' in place of a date or time.       |
 | Standings                | ...standings.scroll.scroll_pause_duration                      | How many seconds to pause once a team has been fully scrolled on/off the matrix.                                                      | Any number > 0<br> Default 1                                   |                                                                                       |
