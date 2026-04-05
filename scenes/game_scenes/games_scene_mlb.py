@@ -108,9 +108,12 @@ class MLBGamesScene(GamesScene):
         # If there's any games to display, loop through them and build the appropriate images.
         if games:
             for game in games:
-                # If the game has yet to begin, build the game not started image.
+                # If the game has yet to begin, build the game not started image (or TBD image if the start time is to be determined).
                 if game['status'] in ['Preview']:
-                    self.build_game_not_started_image(game)
+                    if game['start_time_tbd'] or 'Delayed' in game['detailed_status']:
+                        self.build_game_tbd_image(game)
+                    else:
+                        self.build_game_not_started_image(game)
 
                 # If the game is postponed, build the game postponed image. Need to check for these first as the API also says these games are 'Final'.
                 elif game['detailed_status'] in ['Postponed']:

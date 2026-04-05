@@ -171,6 +171,35 @@ class GamesScene(Scene):
         self.draw['centre'].text((7, -1), 'P', font=self.FONTS['med'], fill=self.COLOURS['white'])
         self.draw['centre'].text((13, -1), 'D', font=self.FONTS['med'], fill=self.COLOURS['white'])
 
+    
+    def build_game_tbd_image(self, game):
+        """ Builds image for when the game has a TBD start time.
+
+        Args:
+            game (dict): Dictionary with all details of a specific game.
+        """
+
+        # First, add the team logos to the left and right images.
+        self.add_team_logos_to_image(game)
+
+        # First, add the team logos to the left and right images.
+        self.add_team_logos_to_image(game)        
+
+        # Add 'Today' to the centre image.
+        self.draw['centre'].text((0, -1), 'T', font=self.FONTS['med'], fill=self.COLOURS['white']) # Text has some padding on the top that needs to be accounted for.
+        self.draw['centre'].text((4, 1), 'o', font=self.FONTS['sm'], fill=self.COLOURS['white'])
+        self.draw['centre'].text((8, 1), 'd', font=self.FONTS['sm'], fill=self.COLOURS['white'])
+        self.draw['centre'].text((12, 1), 'a', font=self.FONTS['sm'], fill=self.COLOURS['white'])
+        self.draw['centre'].text((16, 1), 'y', font=self.FONTS['sm'], fill=self.COLOURS['white'])
+
+        # Add '@' to the centre image.
+        self.draw['centre'].text((5, 7), '@', font=self.FONTS['lrg'], fill=self.COLOURS['white'])
+
+        # Add 'TBD' to the centre image.
+        self.draw['centre'].text((1, 20), 'T', font=self.FONTS['med'], fill=self.COLOURS['white'])
+        self.draw['centre'].text((7, 20), 'B', font=self.FONTS['med'], fill=self.COLOURS['white'])
+        self.draw['centre'].text((13, 20), 'D', font=self.FONTS['med'], fill=self.COLOURS['white'])
+
 
     def add_time_to_image(self, game):
         """ Adds the start time or time remaining in the period to the centre image.

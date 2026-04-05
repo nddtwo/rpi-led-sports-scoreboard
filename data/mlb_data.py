@@ -76,6 +76,7 @@ def get_games(date):
                 'away_score': game.get('linescore', {}).get('teams', {}).get('away', {}).get('runs', 0),
                 'start_datetime_utc': dt.strptime(game['gameDate'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=tz.utc),
                 'start_datetime_local': dt.strptime(game['gameDate'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=tz.utc).astimezone(tz=None), # Convert UTC to local time.
+                'start_time_tbd': game['status']['startTimeTBD'],
                 'status': game['status']['abstractGameState'],
                 'detailed_status': game['status']['detailedState'],
                 'has_started': True if game['status']['abstractGameState'] in ['Live', 'Final'] else False,
