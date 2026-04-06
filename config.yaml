@@ -209,7 +209,7 @@ scene_settings:
         rollover_start_time_local: '07:00'
         show_completed_games_until_rollover_end_time: True
         rollover_end_time_local: '09:00'
-        
+
     fav_team_next_game: # mlb_fav_team_next_game scene.
       transition: 'modern'
       display_duration: 3.5
