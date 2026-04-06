@@ -113,12 +113,12 @@ def get_next_game(team):
     cur_date = cur_datetime.date()
 
     # Convert provided team abbreviation to team ID for the API call.
-    team = determine_team_abbreviation(team)
+    team_id = determine_team_abbreviation(team)
 
     # Build the URL for the MLB teams API call.
     base_url = 'https://statsapi.mlb.com/api/v1/teams/'
     url_params = {
-        'teamId': team,
+        'teamId': team_id,
         'hydrate': [ # Hydrations add extra details to the API response.
             'nextSchedule(team)',
         ],
