@@ -17,7 +17,7 @@ scene_order:
   - nba_fav_team_next_game
   - wnba_fav_team_next_game
   - mlb_fav_team_next_game
-  
+
   - nhl_standings
   - pwhl_standings
   - nba_standings
