@@ -124,7 +124,7 @@ scene_settings:
       colour_sidebar: True
       display_for:
         - league
-  
+
   # Basketball - NBA, WNBA.
   nba:
     games: # nba_games scene.
