@@ -58,11 +58,11 @@ class MLBGamesScene(GamesScene):
         # For the current day's games, note if any runs were scored since the last data pull.
         if self.data['games_previous_pull']: # Only applicable if there's a previous copy to compare to.
             for game in self.data['games']:
-                if game['status'] not in ['Live']: # Not applicable if the game hasn't started yet.
+                if game['status'] not in ['Preview']: # Not applicable if the game hasn't started yet.
                     # Match games between data pulls.
                     matched_game = next(filter(lambda x: x['game_id'] == game['game_id'], self.data['games_previous_pull']))
 
-                    if matched_game['status'] not in ['Preview', 'Live']: # Not applicable if the game hasn't started yet in the previous pull.
+                    if matched_game['status'] not in ['Preview']: # Not applicable if the game hasn't started yet in the previous pull.
                         # Determine if either team scored and set keys accordingly.
                         game['away_team_scored'] = True if game['away_score'] > matched_game['away_score'] else False
                         game['home_team_scored'] = True if game['home_score'] > matched_game['home_score'] else False
