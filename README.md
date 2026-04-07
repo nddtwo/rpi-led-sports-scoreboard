@@ -11,15 +11,17 @@ Hardware requirements, installation instructions (with and without Docker), and 
 - WNBA 🏀
 - MLB ⚾️
 
-### [Watch Demo on YouTube](https://www.youtube.com/watch?v=BjqVBXsv_c8)
-[![Scoreboard Demo](https://img.youtube.com/vi/BjqVBXsv_c8/maxresdefault.jpg)](https://www.youtube.com/watch?v=BjqVBXsv_c8)
+### [Watch Demo on YouTube](https://www.youtube.com/watch?v=nLjgcG6VP90)
+[![Scoreboard Demo](https://img.youtube.com/vi/nLjgcG6VP90/maxresdefault.jpg)](https://www.youtube.com/watch?v=nLjgcG6VP90)
 
 ### Additional Examples
-<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nhl_fav_team_next_game.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nhl_game_not_started.jpg" width="400"/>
-<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nhl_game_in_progress.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nhl_game_in_progress_goal_scored.jpg" width="400"/>
-<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nhl_standings_wildcard.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nba_standings_conference.jpg" width="400"/>
-<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nba_fav_team_next_game.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nba_game_in_progress_half.jpg" width="400"/>
-<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/1b16f59d4b9c3e7d6918aaa103db308129f0171a/examples/ex_pwhl_game_splash.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/1b16f59d4b9c3e7d6918aaa103db308129f0171a/examples/ex_pwhl_game_not_started.jpg" width="400"/>
+<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nhl_fav_team_next_game.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nba_fav_team_next_game.jpg" width="400"/> 
+<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/ead07f954ac65f10c89044de4799ad00dc21210d/examples/ex_mlb_fav_team_next_game_in_progress.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/1b16f59d4b9c3e7d6918aaa103db308129f0171a/examples/ex_pwhl_game_splash.jpg" width="400"/>
+<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/ead07f954ac65f10c89044de4799ad00dc21210d/examples/ex_wnba_game_splash.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/1b16f59d4b9c3e7d6918aaa103db308129f0171a/examples/ex_pwhl_game_not_started.jpg" width="400"/>
+<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nhl_game_in_progress_goal_scored.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nba_game_in_progress.jpg" width="400"/>
+<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nba_game_in_progress_half.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/ead07f954ac65f10c89044de4799ad00dc21210d/examples/ex_mlb_game_in_progress.jpg" width="400"/>
+<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/ead07f954ac65f10c89044de4799ad00dc21210d/examples/ex_mlb_game_in_progress_with_details.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/ead07f954ac65f10c89044de4799ad00dc21210d/examples/ex_nhl_standings_wildcard_1.jpg" width="400"/>
+<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/ead07f954ac65f10c89044de4799ad00dc21210d/examples/ex_nhl_standings_wildcard_2.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/ead07f954ac65f10c89044de4799ad00dc21210d/examples/ex_mlb_standings_league.jpg" width="400"/>
 
 ## Contents
 1. [Hardware Required](#hardware)
