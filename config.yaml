@@ -51,6 +51,7 @@ alt_logos:
     # SEA: 2000 # Example.
   mlb:
     # ATL: 'Cap' # Example.
+    # NYY: 'Cap' # Example.
 
 
 # Settings for each scene.
