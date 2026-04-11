@@ -1,6 +1,6 @@
 # Raspberry Pi LED Matrix Sports Scoreboard
 
-Display live hockey and basketball game scores, future start times, standings, etc. on an LED matrix driven by a Raspberry Pi.
+Display live hockey, basketball, and baseball game scores, future start times, standings, etc. on an LED matrix driven by a Raspberry Pi.
 
 Hardware requirements, installation instructions (with and without Docker), and configuration breakdown are below.
 
@@ -8,19 +8,20 @@ Hardware requirements, installation instructions (with and without Docker), and 
 - NHL 🏒
 - PWHL 🏒
 - NBA 🏀
+- WNBA 🏀
+- MLB ⚾️
 
-### [Watch Demo on YouTube](https://www.youtube.com/watch?v=BjqVBXsv_c8)
-[![Scoreboard Demo](https://img.youtube.com/vi/BjqVBXsv_c8/maxresdefault.jpg)](https://www.youtube.com/watch?v=BjqVBXsv_c8)
+### [Watch Demo on YouTube](https://www.youtube.com/watch?v=nLjgcG6VP90)
+[![Scoreboard Demo](https://img.youtube.com/vi/nLjgcG6VP90/maxresdefault.jpg)](https://www.youtube.com/watch?v=nLjgcG6VP90)
 
 ### Additional Examples
-<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nhl_fav_team_next_game.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nhl_game_not_started.jpg" width="400"/>
-<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nhl_game_in_progress.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nhl_game_in_progress_goal_scored.jpg" width="400"/>
-<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nhl_standings_wildcard.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nba_standings_conference.jpg" width="400"/>
-<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nba_fav_team_next_game.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nba_game_in_progress_half.jpg" width="400"/>
-<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/1b16f59d4b9c3e7d6918aaa103db308129f0171a/examples/ex_pwhl_game_splash.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/1b16f59d4b9c3e7d6918aaa103db308129f0171a/examples/ex_pwhl_game_not_started.jpg" width="400"/>
-
-## Note: v5.0.0
-This repository has been renamed from *rpi-led-nhl-scoreboard* to *rpi-led-sports-scoreboard* reflecting that additional leagues and sports are now supported.
+<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nhl_fav_team_next_game.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nba_fav_team_next_game.jpg" width="400"/> 
+<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/ead07f954ac65f10c89044de4799ad00dc21210d/examples/ex_mlb_fav_team_next_game_in_progress.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/1b16f59d4b9c3e7d6918aaa103db308129f0171a/examples/ex_pwhl_game_splash.jpg" width="400"/>
+<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/ead07f954ac65f10c89044de4799ad00dc21210d/examples/ex_wnba_game_splash.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/1b16f59d4b9c3e7d6918aaa103db308129f0171a/examples/ex_pwhl_game_not_started.jpg" width="400"/>
+<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nhl_game_in_progress_goal_scored.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nba_game_in_progress.jpg" width="400"/>
+<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/83b0bbb9454c9596226d4732942d96ae19585074/examples/ex_nba_game_in_progress_half.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/ead07f954ac65f10c89044de4799ad00dc21210d/examples/ex_mlb_game_in_progress.jpg" width="400"/>
+<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/ead07f954ac65f10c89044de4799ad00dc21210d/examples/ex_mlb_game_in_progress_with_details.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/ead07f954ac65f10c89044de4799ad00dc21210d/examples/ex_nhl_standings_wildcard_1.jpg" width="400"/>
+<img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/ead07f954ac65f10c89044de4799ad00dc21210d/examples/ex_nhl_standings_wildcard_2.jpg" width="400"/> <img src="https://github.com/gidger/rpi-led-sports-scoreboard/blob/ead07f954ac65f10c89044de4799ad00dc21210d/examples/ex_mlb_standings_league.jpg" width="400"/>
 
 ## Contents
 1. [Hardware Required](#hardware)
@@ -226,17 +227,23 @@ Any installation will need to start with these steps:
 
 Functionality is divided into different "scenes" that each display information on a specific topic (e.g., today's games, standings, etc.). The currently implemented scenes are detailed below.
 
-| **Scene**                     | **Name in config.yaml scene_order** | **Description**                                                                                                                                                                                                  |
-| ----------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| NHL Games                     | nhl_games                           | Displays live NHL game scores, time remaining, etc. If the game hasn't started, start time is displayed. Can optionally display games for previous day as well.                                                  |
-| NHL Favourite Team Next Game  | nhl_fav_team_next_game              | Displays next game details for all specified favourite teams. If game is today, displays start time. Can optionally be suppressed if game is in progress. Will not display anything if no favourite team is set. |
-| NHL Standings                 | nhl_standings                       | Displays standings for wild card, division, conference, and/or overall, as configured by the user. Can optionally highlight favourite team.                                                                      |
-| NBA Games                     | nba_games                           | Displays live NBA game scores, time remaining, etc. If the game hasn't started, start time is displayed. Can optionally display games for previous day as well.                                                  |
-| NBA Favourite Team Next Game  | nba_fav_team_next_game              | Displays next game details for all specified favourite teams. If game is today, displays start time. Can optionally be suppressed if game is in progress. Will not display anything if no favourite team is set. |
-| NBA Standings                 | nba_standings                       | Displays standings for division and/or conference, as configured by the user. Can optionally highlight favourite team.                                                                                           |
-| PWHL Games                    | pwhl_games                          | Displays live PWHL game scores, time remaining, etc. If the game hasn't started, start time is displayed. Can optionally display games for previous day as well.                                                 |
-| PWHL Favourite Team Next Game | pwhl_fav_team_next_game             | Displays next game details for all specified favourite teams. If game is today, displays start time. Can optionally be suppressed if game is in progress. Will not display anything if no favourite team is set. |
-| PWHL Standings                | pwhl_standings                      | Displays standings for wild card, division, conference, and/or overall, as configured by the user. Can optionally highlight favourite team.                                                                      |
+| **Scene**                         | **Name in config.yaml scene_order** | **Description**                                                                                                                                                                                                  |
+| --------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🏒 NHL Games                     | nhl_games                           | Displays live NHL game scores, time remaining, etc. If the game hasn't started, start time is displayed. Can optionally display games for previous day as well.                                                  |
+| 🏒 NHL Favourite Team Next Game  | nhl_fav_team_next_game              | Displays next game details for all specified favourite teams. If game is today, displays start time. Can optionally be suppressed if game is in progress. Will not display anything if no favourite team is set. |
+| 🏒 NHL Standings                 | nhl_standings                       | Displays standings for wild card, division, conference, and/or overall, as configured by the user. Can optionally highlight favourite team.                                                                      |
+| 🏒 PWHL Games                    | pwhl_games                          | Displays live PWHL game scores, time remaining, etc. If the game hasn't started, start time is displayed. Can optionally display games for previous day as well.                                                 |
+| 🏒 PWHL Favourite Team Next Game | pwhl_fav_team_next_game             | Displays next game details for all specified favourite teams. If game is today, displays start time. Can optionally be suppressed if game is in progress. Will not display anything if no favourite team is set. |
+| 🏒 PWHL Standings                | pwhl_standings                      | Displays overall standings. Can optionally highlight favourite team.                                                                                                                                             |
+| 🏀 NBA Games                     | nba_games                           | Displays live NBA game scores, time remaining, etc. If the game hasn't started, start time is displayed. Can optionally display games for previous day as well.                                                  |
+| 🏀 NBA Favourite Team Next Game  | nba_fav_team_next_game              | Displays next game details for all specified favourite teams. If game is today, displays start time. Can optionally be suppressed if game is in progress. Will not display anything if no favourite team is set. |
+| 🏀 NBA Standings                 | nba_standings                       | Displays standings for division and/or conference, as configured by the user. Can optionally highlight favourite team.                                                                                           |
+| 🏀 WNBA Games                    | wnba_games                          | Displays live WNBA game scores, time remaining, etc. If the game hasn't started, start time is displayed. Can optionally display games for previous day as well.                                                 |
+| 🏀 WNBA Favourite Team Next Game | wnba_fav_team_next_game             | Displays next game details for all specified favourite teams. If game is today, displays start time. Can optionally be suppressed if game is in progress. Will not display anything if no favourite team is set. |
+| 🏀 WNBA Standings                | wnba_standings                      | Displays overall standings. Can optionally highlight favourite team.                                                                                                                                             |
+| ⚾️ MLB Games                    | mlb_games                           | Displays live MLB game scores, current inning, outs, runners on base, etc. If the game hasn't started, start time is displayed. Can optionally display games for previous day as well.                           |
+| ⚾️ MLB Favourite Team Next Game | mlb_fav_team_next_game              | Displays next game details for all specified favourite teams. If game is today, displays start time. Can optionally be suppressed if game is in progress. Will not display anything if no favourite team is set. |
+| ⚾️ MLB Standings                | mlb_standings                       | Displays standings for wild card, division, and/or league, as configured by the user. Can optionally highlight favourite team.                                                                                   |
 
 <a name="config"/>
 
@@ -281,6 +288,7 @@ These setting impact individual scenes only and are (generally) unique to that s
 | Games                    | ...games.rollover.rollover_start_time_local                    | Time of day to start reporting on that days games.                                                                                    | Any time in 'HH:MM' format<br>Default 07:00                    |                                                                                       |
 | Games                    | ...games.rollover.show_completed_games_until_rollover_end_time | If games for both yesterday and today should be displayed when time is between rollover_start_time_local and rollover_end_time_local. | <ul><li>True (Default)</li><li>False</li>                      |                                                                                       |
 | Games                    | ...games.rollover.rollover_end_time_local                      | Time of day to stop reporting on yesterdays games.                                                                                    | Any time in 'HH:MM' format<br>Default 12:00                    | If  show_completed_games_until_rollover_end_time = False, this setting is irrelevant. |
+| Games                    | mlb.games.display_outs_and_bases                               | If outs and runners on base should be displayed for live games.                                                                       | <ul><li>True (Default)</li><li>False</li></ul>                 | Only applicable for the MLB games scene.                                              |
 | Favourite Team Next Game | ...fav_team_next_games.display_duration                        | How many seconds to display the next game info for each favourite team.                                                               | Any number > 0<br> Default 3.5                                 |                                                                                       |
 | Favourite Team Next Game | ...fav_team_next_games.display_if_in_progress                  | If the next game should be displayed when the favourite team is currently playing.                                                    | <ul><li>False (Default)</li><li>True</li>                      | If True, the next game will be displayed with 'Ipr' in place of a date or time.       |
 | Standings                | ...standings.scroll.scroll_pause_duration                      | How many seconds to pause once a team has been fully scrolled on/off the matrix.                                                      | Any number > 0<br> Default 1                                   |                                                                                       |

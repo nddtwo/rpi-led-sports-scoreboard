@@ -2,13 +2,21 @@ from scenes.game_scenes.games_scene_nhl import NHLGamesScene
 from scenes.fav_team_next_game_scenes.fav_team_next_game_scene_nhl import NHLFavTeamNextGameScene
 from scenes.standings_scenes.standings_scene_nhl import NHLStandingsScene
 
+from scenes.game_scenes.games_scene_pwhl import PWHLGamesScene
+from scenes.fav_team_next_game_scenes.fav_team_next_game_scene_pwhl import PWHLFavTeamNextGameScene
+from scenes.standings_scenes.standings_scene_pwhl import PWHLStandingsScene
+
 from scenes.game_scenes.games_scene_nba import NBAGamesScene
 from scenes.fav_team_next_game_scenes.fav_team_next_game_scene_nba import NBAFavTeamNextGameScene
 from scenes.standings_scenes.standings_scene_nba import NBAStandingsScene
 
-from scenes.game_scenes.games_scene_pwhl import PWHLGamesScene
-from scenes.fav_team_next_game_scenes.fav_team_next_game_scene_pwhl import PWHLFavTeamNextGameScene
-from scenes.standings_scenes.standings_scene_pwhl import PWHLStandingsScene
+from scenes.game_scenes.games_scene_wnba import WNBAGamesScene
+from scenes.fav_team_next_game_scenes.fav_team_next_game_scene_wnba import WNBAFavTeamNextGameScene
+from scenes.standings_scenes.standings_scene_wnba import WNBAStandingsScene
+
+from scenes.game_scenes.games_scene_mlb import MLBGamesScene
+from scenes.fav_team_next_game_scenes.fav_team_next_game_scene_mlb import MLBFavTeamNextGameScene
+from scenes.standings_scenes.standings_scene_mlb import MLBStandingsScene
 
 from setup.matrix_setup import matrix, determine_matrix_brightness
 from utils import data_utils
@@ -17,17 +25,25 @@ from utils import data_utils
 def run_scoreboard():
     # Instantiate objects for each of the "scenes" (i.e., visual ideas) supported.
     scene_mapping = {
-        'nhl_games': NHLGamesScene(),
-        'nhl_fav_team_next_game': NHLFavTeamNextGameScene(),
-        'nhl_standings': NHLStandingsScene(),
-        
-        'nba_games': NBAGamesScene(),
-        'nba_fav_team_next_game': NBAFavTeamNextGameScene(),
-        'nba_standings': NBAStandingsScene(),
-        
-        'pwhl_games': PWHLGamesScene(),
-        'pwhl_fav_team_next_game': PWHLFavTeamNextGameScene(),
-        'pwhl_standings': PWHLStandingsScene()
+        'nhl_games':                NHLGamesScene(),
+        'nhl_fav_team_next_game':   NHLFavTeamNextGameScene(),
+        'nhl_standings':            NHLStandingsScene(),
+
+        'pwhl_games':               PWHLGamesScene(),
+        'pwhl_fav_team_next_game':  PWHLFavTeamNextGameScene(),
+        'pwhl_standings':           PWHLStandingsScene(),
+
+        'nba_games':                NBAGamesScene(),
+        'nba_fav_team_next_game':   NBAFavTeamNextGameScene(),
+        'nba_standings':            NBAStandingsScene(),
+
+        'wnba_games':               WNBAGamesScene(),
+        'wnba_fav_team_next_game':  WNBAFavTeamNextGameScene(),
+        'wnba_standings':           WNBAStandingsScene(),
+
+        'mlb_games':                MLBGamesScene(),
+        'mlb_fav_team_next_game':   MLBFavTeamNextGameScene(),
+        'mlb_standings':            MLBStandingsScene()
     }
 
     # Infinite loop.
