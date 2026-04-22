@@ -1,16 +1,16 @@
 # The following scenes will be displayed in the order specified. Will loop once complete.
 scene_order:
-  - nhl_fav_team_next_game
-  - nba_fav_team_next_game
+  # - nhl_fav_team_next_game.
+  # - nba_fav_team_next_game.
   - mlb_fav_team_next_game
 
-  - nhl_games
+  # - nhl_games.
   # - nba_games.
-  # - mlb_games.
+   - mlb_games
 
-  - nhl_fav_team_next_game
-  - nba_fav_team_next_game
-  - mlb_fav_team_next_game
+  # - nhl_fav_team_next_game.
+  # - nba_fav_team_next_game.
+  # - mlb_fav_team_next_game.
 
   # - nhl_standings.
   # - nba_standings.
