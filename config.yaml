@@ -20,7 +20,8 @@ scene_order:
 # Note your favourite teams by league. Any number of teams can be specified.
 favourite_teams:
   nhl:
-  - BOS, MTL
+  - BOS
+  - MTL
     # - BOS # Example.
   nba:
   - BOS
