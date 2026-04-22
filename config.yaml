@@ -157,7 +157,7 @@ scene_settings:
 # Brightness settings.
 brightness:
   brightness_mode: 'static' #'auto', 'static'.
-  max_brightness: 60
+  max_brightness: 50
 
 
 # Hardware configuration details.
