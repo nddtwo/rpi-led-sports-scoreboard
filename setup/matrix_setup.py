@@ -38,9 +38,9 @@ def determine_matrix_brightness():
 # Make matrix options object with needed settings.
 matrix_options = RGBMatrixOptions()
 matrix_options.rows = 32
-matrix_options.cols = 128
+matrix_options.cols = 64
 matrix_options.chain_length = 1
-matrix_options.parallel = 0
+matrix_options.parallel = 1
 matrix_options.drop_privileges = False # Needed to ensure fonts and images load correctly.
 
 # Hardware specific config from config.yaml.
