@@ -367,7 +367,7 @@ class GamesScene(Scene):
         """
 
         # Stay red for a short time before fading.
-        sleep(0.5)
+        sleep(2)
 
         # Loop over the colour between red and white.
         for n in range(self.COLOURS['red'][2], self.COLOURS['white'][2]):
