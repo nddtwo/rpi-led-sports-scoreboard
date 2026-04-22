@@ -40,7 +40,7 @@ matrix_options = RGBMatrixOptions()
 matrix_options.rows = 32
 matrix_options.cols = 64
 matrix_options.chain_length = 2
-matrix_options.parallel = 1
+matrix_options.parallel = 2
 matrix_options.drop_privileges = False # Needed to ensure fonts and images load correctly.
 
 # Hardware specific config from config.yaml.
