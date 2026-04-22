@@ -20,13 +20,13 @@ scene_order:
 # Note your favourite teams by league. Any number of teams can be specified.
 favourite_teams:
   nhl:
-  - BOS
+  - BOS, MTL
     # - BOS # Example.
   nba:
   - BOS
     # - TOR # Example.
   mlb:
-  - BOS, MTL
+  - BOS
     # - TOR # Example.
 
 
@@ -61,7 +61,7 @@ scene_settings:
 
     fav_team_next_game: # nhl_fav_team_next_game scene.
       transition: 'modern'
-      display_duration: 3.5
+      display_duration: 5
       display_if_in_progress: True
 
     standings: # nhl_standings scene.
@@ -98,7 +98,7 @@ scene_settings:
 
     fav_team_next_game: # nba_fav_team_next_game scene.
       transition: 'modern'
-      display_duration: 3.5
+      display_duration: 5
       display_if_in_progress: True
 
     standings: # nba_standings scene.
@@ -134,7 +134,7 @@ scene_settings:
 
     fav_team_next_game: # mlb_fav_team_next_game scene.
       transition: 'modern'
-      display_duration: 3.5
+      display_duration: 5
       display_if_in_progress: True
 
     standings: # mlb_standings scene.
