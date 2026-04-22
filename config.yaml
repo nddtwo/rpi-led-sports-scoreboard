@@ -123,7 +123,7 @@ scene_settings:
       splash:
         display_splash: True
         splash_display_duration: 2
-      game_display_duration: 5
+      game_display_duration: 10
       display_outs_and_bases: True
       score_alerting:
         score_coloured: True
